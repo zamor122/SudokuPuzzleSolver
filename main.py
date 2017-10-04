@@ -396,18 +396,23 @@ if __name__ == '__main__':
     #print "There is an error in your code in Row", Location[0]+1, "and Column", Location[1]+1,". The correct answer is: " , getAnswer(rows,columns,Location)
     thread1 = Thread(target=getRowsOfNumbers,args=(filePath,results))
     thread1.start()
+    print "Thread 1 Started"
     grid = results.get()
     thread2 = Thread(target=getRows,args=(grid,results))
     thread2.start()
+    print "Thread 2 Started"
     rows = results.get()
     thread3 = Thread(target=getColumns,args=(grid,results))
     thread3.start()
+    print "Thread 3 Started"
     columns = results.get()
     thread4 = Thread(target=getBadRows,args=(rows,results))
     thread4.start()
+    print "Thread 4 Started"
     badRows = results.get()
     thread5 = Thread(target=getBadColumns,args=(rows,results))
     thread5.start()
+    print "Thread 5 Started"
     badColumns = results.get()
     if badRows == 0 and badColumns == 0:
         print "Yay! There are no errors in this Puzzle! Goodbye!"
@@ -415,17 +420,26 @@ if __name__ == '__main__':
     else:
         thread6 = Thread(target=getRowAndColumnNumber(rows,columns,badRows,badColumns,results))
         thread6.start()
+        print "Thread 6 Started"
         position = results.get()
         thread7 = Thread(target=getAnswer,args=(rows,columns,position,results))
         thread7.start()
+        print "Thread 7 Started"
         correctAnswer = results.get()
-        print "There is an error in your puzzle in Row ", position[0]+1," and Column ", position[1]+1, ". This number should be replaced with: ", correctAnswer
         thread1.join()
+        print "Thread 1 Stopped"
         thread2.join()
+        print "Thread 2 Stopped"
         thread3.join()
+        print "Thread 3 Stopped"
         thread4.join()
+        print "Thread 4 Stopped"
         thread5.join()
+        print "Thread 5 Stopped"
         thread6.join()
+        print "Thread 6 Stopped"
         thread7.join()
+        print "Thread 7 Stopped"
+        print "There is an error in your puzzle in Row ", position[0]+1," and Column ", position[1]+1, ". This number should be replaced with: ", correctAnswer
 
-#END MAIN
+        #END MAIN
