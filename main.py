@@ -1,23 +1,24 @@
 from threading import Thread
 from Queue import *
+import sys
 """
 function to welcome the user and obtain the file path
 if file path not valid get a valid file path or 0 to quit
 """
 def welcomeSudoku():
     print "Welcome to Sudoku Solver"
-    FilePath = str(raw_input("Please enter the file path: "))
+    FilePath = str(raw_input("Please enter the file path or 0 to exit: "))
     while True:
         try:
             if(FilePath == '0'):
                 print "Thank you for using Sudoku Solver, Goodbye"
-                exit(0)
+                sys.exit(0)
             file = open(FilePath, "r")
             file.close()
             return FilePath
         except IOError:
             print "File Could not be opened please try again"
-            FilePath = str(raw_input("Please enter the file path: "))
+            FilePath = str(raw_input("Please enter the file path or 0 to exit: "))
 ##END welcomeSudoku()
 
 
@@ -117,7 +118,6 @@ FUNCTION TO GET THE CORRECT ANSWER
 #LARGE FUNCTION THAT TAKES IN THE ROWS, COLUMNS, TUPLE OF LOCATION OF ERROR AND RETURNS THE CORRECT ANSWER
 def getAnswer(rows, columns, errorTuple,results):
     #THE FIRST HALF OF THE FUNCTION TURNS THE ROWS AND COLUMNS INTO TUPLES AND THEN ADDS THEM TO A SET
-    currentGrid = []
     rowNumber = errorTuple[0]
     colNumber = errorTuple[1]
     rowWithError = set()
@@ -128,7 +128,7 @@ def getAnswer(rows, columns, errorTuple,results):
     columnWithError.add(columnWithTuple)
     ##THE SECOND HALF OF THE FUNCTION FINDS THE CORRECT GRID FOR THE ERROR AND SOLVES FOR THE CORRECT ANSWER
     #GRID 1
-    if rowNumber <= 1 and colNumber <=2:
+    if rowNumber <= 2 and colNumber <= 2:
         grid = []
         gridValues = set()
         for i in range(0, 3):
@@ -209,7 +209,7 @@ def getAnswer(rows, columns, errorTuple,results):
         if 9 not in rowWithError and 9 not in columnWithError and 9 not in gridWithTuple:
             return results.put(9)
     #GRID 4
-    if 3<= rowNumber <= 5 and colNumber <= 2:
+    if 3 <= rowNumber <= 5 and colNumber <= 2:
         grid = []
         gridValues = set()
         for i in range(3, 6):
@@ -415,8 +415,18 @@ if __name__ == '__main__':
     print "Thread 5 Started"
     badColumns = results.get()
     if badRows == 0 and badColumns == 0:
+        thread1.join()
+        print "Thread 1 Stopped"
+        thread2.join()
+        print "Thread 2 Stopped"
+        thread3.join()
+        print "Thread 3 Stopped"
+        thread4.join()
+        print "Thread 4 Stopped"
+        thread5.join()
+        print "Thread 5 Stopped"
         print "Yay! There are no errors in this Puzzle! Goodbye!"
-        exit(0)
+        sys.exit(0)
     else:
         thread6 = Thread(target=getRowAndColumnNumber(rows,columns,badRows,badColumns,results))
         thread6.start()
