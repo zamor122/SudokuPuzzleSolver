@@ -383,17 +383,6 @@ MAIN
 if __name__ == '__main__':
     results = Queue()
     filePath = welcomeSudoku()
-    #grid = getRowsOfNumbers(filePath)
-    #rows = getRows(grid)
-    #columns = getColumns(grid)
-    #badRows = getBadRows(rows)
-    #badColumns = getBadColumns(rows)
-    #if badRows == 0 and badColumns == 0:
-        #print "There are no errors in this puzzle!"
-        #exit(0)
-    #print "\n"
-    #Location = getRowAndColumnNumber(rows,columns,badRows,badColumns)
-    #print "There is an error in your code in Row", Location[0]+1, "and Column", Location[1]+1,". The correct answer is: " , getAnswer(rows,columns,Location)
     thread1 = Thread(target=getRowsOfNumbers,args=(filePath,results))
     thread1.start()
     print "Thread 1 Started"
