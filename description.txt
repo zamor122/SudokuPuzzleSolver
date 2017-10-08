@@ -1,0 +1,1 @@
+I used 7 threads to run different processes. These 7 threads are all interactive with one another meaning that they use the information from a separate thread to perform the assigned tasks. I chose 7 threads because I have 7 functions that need to be run in order to complete the analysis.
